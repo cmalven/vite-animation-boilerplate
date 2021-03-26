@@ -1,0 +1,51 @@
+@import 'normalize.css/normalize.css';
+@import 'reset.css/reset.css';
+@import 'sass-mq/mq';
+@import 'base/base';
+
+$mq-breakpoints: (
+  small: 500px,
+  medium: 768px,
+  large: 1024px,
+  xlarge: 1280px,
+  full: 1440px,
+);
+
+// General purposes canvas container - applies to all examples
+
+[data-app-container] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  > canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+// Curtains Example - Plane Container
+
+.curtains-plane-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 60vw;
+  height: 40vw;
+  margin: auto;
+
+  > img {
+    display: none;
+  }
+}

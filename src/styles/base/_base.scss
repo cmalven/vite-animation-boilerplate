@@ -1,0 +1,43 @@
+:root {
+  --background-color: #212322;
+}
+
+html,
+body {
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background: magenta;
+  color: white;
+  text-shadow: none;
+}
