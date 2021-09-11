@@ -11,10 +11,10 @@
     "canvas-sketch-util": "^1.10.0",
     "curtainsjs": "^8.0.2",
     "gsap": "^3.6.0",
+    "include-media": "^1.4.10",
     "nice-color-palettes": "^3.0.0",
     "pixi.js": "^5.3.7",
     "reset.css": "^2.0.2",
-    "sass-mq": "^5.0.1",
     "stats.js": "^0.17.0",
     "three": "^0.124.0"
   },

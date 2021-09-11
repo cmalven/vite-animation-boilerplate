@@ -1,14 +1,50 @@
 @import 'reset.css/reset.css';
-@import 'sass-mq/mq';
-@import 'base/base';
+@import 'include-media/dist/include-media';
 
-$mq-breakpoints: (
+
+// ---------------------------------------------------------------
+// Variables
+// ---------------------------------------------------------------
+
+$breakpoints: (
   small: 500px,
   medium: 768px,
   large: 1024px,
   xlarge: 1280px,
   full: 1440px,
 );
+
+
+// ---------------------------------------------------------------
+// Base
+// ---------------------------------------------------------------
+
+html,
+body {
+  min-height: 100vh;
+  background-color: #212322;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
+// ---------------------------------------------------------------
+// Objects
+// ---------------------------------------------------------------
 
 // General purposes canvas container - applies to all examples
 

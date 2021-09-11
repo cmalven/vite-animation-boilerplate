@@ -1,6 +1,6 @@
 import './styles/index.scss';
 
-import CurtainsExample from './modules/CurtainsExample';
+import Example from './modules/CurtainsExample';
 
 window.APP = window.APP || {
   devMode: true,
@@ -28,5 +28,5 @@ if (window.APP.devMode) {
 
 Promise.all(readyPromises).then(() => {
   // Initialize custom code…
-  new CurtainsExample();
+  new Example();
 });
