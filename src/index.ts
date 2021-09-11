@@ -1,6 +1,14 @@
 import './styles/index.scss';
+import Example from './modules/CanvasExample';
 
-import Example from './modules/CurtainsExample';
+declare global {
+  interface Window {
+    APP: {
+      devMode: boolean,
+      gui?: object,
+    }
+  }
+}
 
 window.APP = window.APP || {
   devMode: true,

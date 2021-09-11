@@ -1,8 +1,16 @@
 {
-  "extends": "@malven",
+  "extends": [
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "@malven"
+  ],
+  "parser": "@typescript-eslint/parser",
   "settings": {
     "react": {
       "version": "latest"
     }
-  }
+  },
+  "plugins": [
+     "@typescript-eslint"
+  ]
 }

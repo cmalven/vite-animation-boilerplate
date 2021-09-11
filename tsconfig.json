@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "module": "esnext",
+        "moduleResolution": "node",
+        "target": "es2020",
+        "typeRoots": [
+            "src/types",
+            "node_modules/@types"
+        ]
+    }
+}
