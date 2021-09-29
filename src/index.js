@@ -1,5 +1,6 @@
 import './styles/index.scss';
 
+import { getGPUTier } from 'detect-gpu';
 import Example from './modules/CurtainsExample';
 
 window.APP = window.APP || {
@@ -7,6 +8,11 @@ window.APP = window.APP || {
 };
 
 const readyPromises = [];
+
+// Detect GPU capabilities
+readyPromises.push(getGPUTier().then(gpuDetails => {
+  window.APP.gpu = gpuDetails;
+}));
 
 if (window.APP.devMode) {
   const guiPromise = import('@malven/gui').then(({ default: Gui }) => {
