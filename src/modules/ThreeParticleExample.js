@@ -205,7 +205,6 @@ class ThreeParticleExample {
     this.updateMouse();
     this.updateUniforms();
 
-
     this.renderer.render(this.scene, this.camera);
     window.requestAnimationFrame(this.update);
     if (window.APP.stats) window.APP.stats.end();
