@@ -45,6 +45,7 @@ class PixiExample {
   }
 
   createApp = () => {
+    PIXI.utils.skipHello();
     this.app = new PIXI.Application({
       backgroundColor: 0x212322,
       width: 1000,
