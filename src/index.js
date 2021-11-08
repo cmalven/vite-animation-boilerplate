@@ -17,7 +17,9 @@ readyPromises.push(getGPUTier().then(gpuDetails => {
 if (window.APP.devMode) {
   const guiPromise = import('@malven/gui').then(({ default: Gui }) => {
     // Add Gui and connect knobs for MidiFighter Twister
-    window.APP.gui = new Gui();
+    window.APP.gui = new Gui({
+      midi: window.location.hostname !== 'localhost',
+    });
     window.APP.gui.configureDevice('Midi Fighter Twister');
   }).catch(error => 'An error occurred while loading GUI');
 
