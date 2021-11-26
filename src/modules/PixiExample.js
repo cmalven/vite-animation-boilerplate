@@ -69,8 +69,8 @@ class PixiExample {
     this.particleContainer = new PIXI.ParticleContainer(700, {
       position: true,
       rotation: true,
-      scale: true,
-      alpha: true,
+      vertices: true,
+      tint: true,
     });
     this.app.stage.addChild(this.particleContainer);
 
