@@ -4,5 +4,8 @@
     "react": {
       "version": "latest"
     }
+  },
+  "parserOptions": {
+    "requireConfigFile": false
   }
 }
