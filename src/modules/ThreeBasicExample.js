@@ -52,9 +52,9 @@ class ThreeBasicExample {
   createApp = () => {
     // Renderer
     this.renderer = new THREE.WebGLRenderer({
-      devicePixelRatio: 1.5,
       antialias: false,
     });
+    this.renderer.setPixelRatio(1.5);
     this.renderer.setSize(this.appContainer.offsetWidth, this.appContainer.offsetHeight);
     this.appContainer.appendChild(this.renderer.domElement);
 

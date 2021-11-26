@@ -45,7 +45,7 @@ class ThreeParticleExample {
     this.init();
   }
 
-  init = async() => {
+  init = async () => {
     this.createGui();
     await this.loadTexture();
     this.createUniforms();
@@ -66,7 +66,7 @@ class ThreeParticleExample {
     window.APP.gui.add(this.settings, 'mouseEase', 0.001, 1);
   }
 
-  loadTexture = async() => {
+  loadTexture = async () => {
     this.pointTexture = await new THREE.TextureLoader().load('https://assets.codepen.io/66496/dot.png');
   }
 
@@ -89,9 +89,9 @@ class ThreeParticleExample {
   createApp = () => {
     // Renderer
     this.renderer = new THREE.WebGLRenderer({
-      devicePixelRatio: 1.5,
       antialias: false,
     });
+    this.renderer.setPixelRatio(1.5);
     this.renderer.setSize(this.appContainer.offsetWidth, this.appContainer.offsetHeight);
     this.appContainer.appendChild(this.renderer.domElement);
 
