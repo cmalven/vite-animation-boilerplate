@@ -7,10 +7,10 @@ import colors from 'nice-color-palettes';
 
 class PixiExample {
   constructor(options = {
-    appContainerSelector: '[data-app-container]',
+    containerSelector: '[data-app-container]',
   }) {
     this.options = options;
-    this.appContainer = document.querySelector(this.options.appContainerSelector);
+    this.container = document.querySelector(this.options.containerSelector);
     this.app = null;
     this.particleContainer = null;
 
@@ -51,12 +51,12 @@ class PixiExample {
       width: 1000,
       height: 1000,
     });
-    this.appContainer.appendChild(this.app.view);
+    this.container.appendChild(this.app.view);
     this.app.ticker.add(this.update);
 
     // Resize the renderer on window resize
     window.addEventListener('resize', () => {
-      this.app.renderer.resize(this.appContainer.offsetWidth, this.appContainer.offsetHeight);
+      this.app.renderer.resize(this.container.offsetWidth, this.container.offsetHeight);
       const scale = Math.max(this.app.view.width / this.width, this.app.view.height / this.height);
       this.app.stage.scale.set(scale, scale);
       this.app.stage.position.set(this.app.view.width/2, this.app.view.height/2);

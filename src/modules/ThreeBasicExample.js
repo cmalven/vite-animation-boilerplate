@@ -7,10 +7,10 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 class ThreeBasicExample {
   constructor(options = {
-    appContainerSelector: '[data-app-container]',
+    containerSelector: '[data-app-container]',
   }) {
     this.options = options;
-    this.appContainer = document.querySelector(this.options.appContainerSelector);
+    this.container = document.querySelector(this.options.containerSelector);
 
     // Time
     this.clock = new THREE.Clock();
@@ -55,11 +55,11 @@ class ThreeBasicExample {
       antialias: false,
     });
     this.renderer.setPixelRatio(1.5);
-    this.renderer.setSize(this.appContainer.offsetWidth, this.appContainer.offsetHeight);
-    this.appContainer.appendChild(this.renderer.domElement);
+    this.renderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
+    this.container.appendChild(this.renderer.domElement);
 
     // Camera
-    this.camera = new THREE.PerspectiveCamera(45, this.appContainer.offsetWidth / this.appContainer.offsetHeight, 1, 10000);
+    this.camera = new THREE.PerspectiveCamera(45, this.container.offsetWidth / this.container.offsetHeight, 1, 10000);
     this.camera.position.set(-3, 2, this.settings.cameraDistance);
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(this.settings.bgColor);
@@ -72,9 +72,9 @@ class ThreeBasicExample {
 
     // Resize the renderer on window resize
     window.addEventListener('resize', () => {
-      this.camera.aspect = this.appContainer.offsetWidth / this.appContainer.offsetHeight;
+      this.camera.aspect = this.container.offsetWidth / this.container.offsetHeight;
       this.camera.updateProjectionMatrix();
-      this.renderer.setSize(this.appContainer.offsetWidth, this.appContainer.offsetHeight);
+      this.renderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
     }, true);
 
     // Ambient Light
