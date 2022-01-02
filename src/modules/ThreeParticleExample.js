@@ -53,7 +53,7 @@ class ThreeParticleExample {
     this.createItems();
     this.addEventListeners();
     this.update();
-  }
+  };
 
   createGui = () => {
     if (!window.APP.gui) return;
@@ -64,11 +64,11 @@ class ThreeParticleExample {
     window.APP.gui.add(this.settings, 'minSize', 1, 90);
     window.APP.gui.add(this.settings, 'maxSize', 1, 90);
     window.APP.gui.add(this.settings, 'mouseEase', 0.001, 1);
-  }
+  };
 
   loadTexture = async () => {
     this.pointTexture = await new THREE.TextureLoader().load('https://assets.codepen.io/66496/dot.png');
-  }
+  };
 
   createUniforms = () => {
     this.uniforms = {
@@ -76,7 +76,7 @@ class ThreeParticleExample {
       currentMouse: { value: this.currentMouse },
     };
     this.updateUniforms();
-  }
+  };
 
   updateUniforms = () => {
     Object.assign(this.uniforms, {}, {
@@ -84,7 +84,7 @@ class ThreeParticleExample {
       minSize: { value: this.settings.minSize },
       maxSize: { value: this.settings.maxSize },
     });
-  }
+  };
 
   createApp = () => {
     // Renderer
@@ -113,7 +113,7 @@ class ThreeParticleExample {
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
     }, true);
-  }
+  };
 
   createItems = () => {
     // Create the geometry
@@ -164,11 +164,11 @@ class ThreeParticleExample {
 
     // Add particles to the scene
     this.scene.add(this.particles);
-  }
+  };
 
   addEventListeners = () => {
     this.container.addEventListener('mousemove', this.onMouseMove);
-  }
+  };
 
   onMouseMove = evt => {
     // Project mouse position onto Z plane based on camera
@@ -184,7 +184,7 @@ class ThreeParticleExample {
     pos.copy(this.camera.position).add(vec.multiplyScalar(distance));
 
     this.targetMouse = { x: pos.x, y: pos.y };
-  }
+  };
 
   updateMouse = () => {
     const mouseDiffX = (this.targetMouse.x - this.currentMouse.x) * this.settings.mouseEase;
@@ -192,11 +192,11 @@ class ThreeParticleExample {
 
     this.currentMouse.x += mouseDiffX;
     this.currentMouse.y += mouseDiffY;
-  }
+  };
 
   updateItems = () => {
 
-  }
+  };
 
   update = () => {
     if (window.APP.stats) window.APP.stats.begin();
@@ -208,7 +208,7 @@ class ThreeParticleExample {
     this.renderer.render(this.scene, this.camera);
     window.requestAnimationFrame(this.update);
     if (window.APP.stats) window.APP.stats.end();
-  }
+  };
 }
 
 export default ThreeParticleExample;

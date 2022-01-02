@@ -32,7 +32,7 @@ class CurtainsExample {
     this.createMarkup();
     this.addEventListeners();
     this.setup();
-  }
+  };
 
   createGui = () => {
     if (!window.APP.gui) return;
@@ -43,7 +43,7 @@ class CurtainsExample {
     window.APP.gui.add(this.settings, 'distortPeriod', 10, 50);
     window.APP.gui.add(this.settings, 'distortStrength', 5, 100);
     window.APP.gui.add(this.settings, 'mouseEase', 0.001, 1);
-  }
+  };
 
   createMarkup = () => {
     const div = document.createElement('div');
@@ -53,7 +53,7 @@ class CurtainsExample {
       <img src="/assets/chicago.jpg" alt="" crossorigin="" />
     `;
     document.body.appendChild(div);
-  }
+  };
 
   setup = () => {
     this.curtains = new Curtains({
@@ -96,11 +96,11 @@ class CurtainsExample {
     this.plane = new Plane(this.curtains, planeElement, params);
 
     this.plane.onRender(this.update);
-  }
+  };
 
   addEventListeners = () => {
     document.body.addEventListener('mousemove', this.onMouseMove);
-  }
+  };
 
   onMouseMove = evt => {
     const w = window.innerWidth;
@@ -109,7 +109,7 @@ class CurtainsExample {
       x: (evt.clientX / w) * 2 - 1,
       y: -(evt.clientY / h) * 2 + 1,
     };
-  }
+  };
 
   updateMouse = () => {
     const mouseDiffX = (this.targetMouse.x - this.currentMouse.x) * this.settings.mouseEase;
@@ -117,7 +117,7 @@ class CurtainsExample {
 
     this.currentMouse.x += mouseDiffX;
     this.currentMouse.y += mouseDiffY;
-  }
+  };
 
   update = () => {
     if (window.APP.stats) window.APP.stats.begin();
@@ -136,7 +136,7 @@ class CurtainsExample {
     this.plane.uniforms.mouse.value = [this.currentMouse.x, this.currentMouse.y];
 
     if (window.APP.stats) window.APP.stats.end();
-  }
+  };
 }
 
 export default CurtainsExample;

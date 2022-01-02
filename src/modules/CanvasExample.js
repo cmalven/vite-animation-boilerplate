@@ -39,7 +39,7 @@ class CanvasExample {
     this.createGui();
     this.createCanvas();
     this.update();
-  }
+  };
 
   createGui = () => {
     if (!window.APP.gui) return;
@@ -48,7 +48,7 @@ class CanvasExample {
     folder.open();
 
     window.APP.gui.add(this.settings, 'scalePeriod', 0.5, 20);
-  }
+  };
 
   createCanvas = () => {
     this.canvas = document.createElement('canvas');
@@ -60,7 +60,7 @@ class CanvasExample {
     // Resize
     window.addEventListener('resize', this.resize);
     this.resize();
-  }
+  };
 
   resize = () => {
     const winRatio = window.innerHeight / window.innerWidth;
@@ -86,7 +86,7 @@ class CanvasExample {
     this.ctx.beginPath();
     this.ctx.arc(this.canvas.width / 2, this.canvas.height / 2, this.item.size * this.item.scale, 0, 2 * Math.PI);
     this.ctx.fill();
-  }
+  };
 
   update = () => {
     if (window.APP.stats) window.APP.stats.begin();
@@ -103,7 +103,7 @@ class CanvasExample {
     if (window.APP.stats) window.APP.stats.end();
 
     window.requestAnimationFrame(this.update);
-  }
+  };
 }
 
 export default CanvasExample;

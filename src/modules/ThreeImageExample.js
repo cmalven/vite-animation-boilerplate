@@ -50,7 +50,7 @@ class ThreeImageExample {
     this.createItems();
     this.addEventListeners();
     this.update();
-  }
+  };
 
   createGui = () => {
     if (!window.APP.gui) return;
@@ -59,25 +59,25 @@ class ThreeImageExample {
     folder.open();
 
     window.APP.gui.add(this.settings, 'mouseEase', 0.001, 1);
-  }
+  };
 
   loadTexture = async () => {
     this.imageTexture = await new THREE.TextureLoader().load('/assets/chicago.jpg');
-  }
+  };
 
   createUniforms = () => {
     this.uniforms = {
       imageTexture: { value: this.imageTexture },
     };
     this.updateUniforms();
-  }
+  };
 
   updateUniforms = () => {
     Object.assign(this.uniforms, {}, {
       time: { value: this.time },
       currentMouse: { value: this.currentMouse },
     });
-  }
+  };
 
   createApp = () => {
     // Renderer
@@ -106,7 +106,7 @@ class ThreeImageExample {
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
     }, true);
-  }
+  };
 
   createItems = () => {
     // Create the geometry
@@ -130,11 +130,11 @@ class ThreeImageExample {
 
     // Add mesh to the scene
     this.scene.add(this.mesh);
-  }
+  };
 
   addEventListeners = () => {
     this.container.addEventListener('mousemove', this.onMouseMove);
-  }
+  };
 
   onMouseMove = evt => {
     // Project mouse position onto Z plane based on camera
@@ -150,7 +150,7 @@ class ThreeImageExample {
     pos.copy(this.camera.position).add(vec.multiplyScalar(distance));
 
     this.targetMouse = { x: pos.x, y: pos.y };
-  }
+  };
 
   updateMouse = () => {
     const mouseDiffX = (this.targetMouse.x - this.currentMouse.x) * this.settings.mouseEase;
@@ -158,11 +158,11 @@ class ThreeImageExample {
 
     this.currentMouse.x += mouseDiffX;
     this.currentMouse.y += mouseDiffY;
-  }
+  };
 
   updateItems = () => {
 
-  }
+  };
 
   update = () => {
     if (window.APP.stats) window.APP.stats.begin();
@@ -175,7 +175,7 @@ class ThreeImageExample {
     this.renderer.render(this.scene, this.camera);
     window.requestAnimationFrame(this.update);
     if (window.APP.stats) window.APP.stats.end();
-  }
+  };
 }
 
 export default ThreeImageExample;

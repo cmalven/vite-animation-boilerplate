@@ -38,7 +38,7 @@ class ThreeBasicExample {
     this.createApp();
     this.createItems();
     this.update();
-  }
+  };
 
   createGui = () => {
     if (!window.APP.gui) return;
@@ -47,7 +47,7 @@ class ThreeBasicExample {
     folder.open();
 
     window.APP.gui.add(this.settings, 'scalePeriod', 0.5, 20);
-  }
+  };
 
   createApp = () => {
     // Renderer
@@ -86,7 +86,7 @@ class ThreeBasicExample {
     directionalLight.position.set(5, 3, 2);
     directionalLight.target.position.set(0, 0, 0);
     this.scene.add(directionalLight);
-  }
+  };
 
   createItems = () => {
     // Box
@@ -98,7 +98,7 @@ class ThreeBasicExample {
     });
     this.mesh = new THREE.Mesh(boxGeom, material);
     this.scene.add(this.mesh);
-  }
+  };
 
   updateItems = () => {
     const time = this.time;
@@ -108,7 +108,7 @@ class ThreeBasicExample {
     const baseScale = 0.4;
     const scaleEffect = baseScale + amplitude * Math.sin((Math.PI * 2) * (time / period));
     this.mesh.scale.set(scaleEffect, scaleEffect, scaleEffect);
-  }
+  };
 
   update = () => {
     this.time = this.clock.getElapsedTime();
@@ -118,7 +118,7 @@ class ThreeBasicExample {
     this.renderer.render(this.scene, this.camera);
     window.requestAnimationFrame(this.update);
 
-  }
+  };
 }
 
 export default ThreeBasicExample;

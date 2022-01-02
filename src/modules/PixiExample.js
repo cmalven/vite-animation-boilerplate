@@ -33,7 +33,7 @@ class PixiExample {
     this.createGui();
     this.createApp();
     this.createItems();
-  }
+  };
 
   createGui = () => {
     if (!window.APP.gui) return;
@@ -42,7 +42,7 @@ class PixiExample {
     folder.open();
 
     window.APP.gui.add(this.settings, 'scalePeriod', 0.5, 20);
-  }
+  };
 
   createApp = () => {
     PIXI.utils.skipHello();
@@ -62,7 +62,7 @@ class PixiExample {
       this.app.stage.position.set(this.app.view.width/2, this.app.view.height/2);
     }, true);
     window.dispatchEvent(new Event('resize'));
-  }
+  };
 
   createItems = () => {
     // Create the particle container
@@ -95,7 +95,7 @@ class PixiExample {
       sprite.tint = PIXI.utils.string2hex(randColor);
       this.particleContainer.addChild(sprite);
     }
-  }
+  };
 
   updateItems = () => {
     this.particleContainer.children.forEach(sprite => {
@@ -106,7 +106,7 @@ class PixiExample {
       const scaleEffect = amplitude * Math.sin((Math.PI * 2) * (iteration / period));
       sprite.scale.x = sprite.scale.y = scaleEffect + sprite.baseScale;
     });
-  }
+  };
 
   update = () => {
     if (window.APP.stats) window.APP.stats.begin();
@@ -114,7 +114,7 @@ class PixiExample {
 
     this.updateItems();
     if (window.APP.stats) window.APP.stats.end();
-  }
+  };
 }
 
 export default PixiExample;
