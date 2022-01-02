@@ -1,11 +1,3 @@
 {
-  "extends": "@malven",
-  "settings": {
-    "react": {
-      "version": "latest"
-    }
-  },
-  "parserOptions": {
-    "requireConfigFile": false
-  }
+  "extends": "@malven"
 }
