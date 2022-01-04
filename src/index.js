@@ -1,7 +1,5 @@
-import './styles/index.scss';
-
 import { getGPUTier } from 'detect-gpu';
-import Example from './modules/ThreeParticleExample';
+import Example from './modules/CurtainsExample';
 
 window.APP = window.APP || {
   devMode: true,
