@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import colorPalettes from 'nice-color-palettes';
-import vertShader from './shaders/threeParticleExampleVert.glsl?raw';
-import fragShader from './shaders/threeParticleExampleFrag.glsl?raw';
+import vertShader from './shaders/three_particle_example_vert.glsl?raw';
+import fragShader from './shaders/three_particle_example_frag.glsl?raw';
 
 /**
  * Boilerplate module using THREE.js

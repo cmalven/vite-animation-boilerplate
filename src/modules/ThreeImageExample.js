@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import vertShader from './shaders/threeImageExampleVert.glsl?raw';
-import fragShader from './shaders/threeImageExampleFrag.glsl?raw';
+import vertShader from './shaders/three_image_example_vert.glsl?raw';
+import fragShader from './shaders/three_image_example_frag.glsl?raw';
 
 /**
  * Boilerplate module using THREE.js
