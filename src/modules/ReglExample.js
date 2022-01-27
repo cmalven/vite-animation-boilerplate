@@ -70,6 +70,10 @@ class ReglExample {
           [-1, -1],
           [-1, 1],
           [1, -1],
+
+          [1, -1],
+          [-1, 1],
+          [1, 1],
         ],
       },
 
@@ -77,7 +81,7 @@ class ReglExample {
         color: regl.prop('color'),
       },
 
-      count: 3,
+      count: 6,
     });
 
     regl.frame(this.update);
