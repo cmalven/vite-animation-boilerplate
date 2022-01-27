@@ -1,6 +1,6 @@
 import { Curtains, Plane } from 'curtainsjs';
-import vertShader from './shaders/curtainsExampleVert.glsl?raw';
-import fragShader from './shaders/curtainsExampleFrag.glsl?raw';
+import vertShader from './shaders/curtains_example_vert.glsl?raw';
+import fragShader from './shaders/curtains_example_frag.glsl?raw';
 
 /**
  * Boilerplate module using Curtains.js
