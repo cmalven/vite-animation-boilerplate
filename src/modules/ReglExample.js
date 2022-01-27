@@ -67,7 +67,7 @@ class ReglExample {
       },
 
       uniforms: {
-        color: regl.prop('color'),
+        time: regl.prop('time'),
       },
 
       count: 6,
@@ -89,12 +89,7 @@ class ReglExample {
     });
 
     this.draw({
-      color: [
-        Math.sin(0.02 * (0.001 * tick)),
-        Math.cos(0.02 * (0.02 * tick)),
-        Math.sin(0.02 * (0.3 * tick)),
-        1,
-      ],
+      time: this.time,
     });
 
     if (window.APP.stats) window.APP.stats.end();
