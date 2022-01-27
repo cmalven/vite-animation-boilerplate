@@ -1,5 +1,7 @@
 import r from 'regl';
 const regl = r();
+import vertShader from './shaders/regl_example_vert.glsl?raw';
+import fragShader from './shaders/regl_example_frag.glsl?raw';
 
 /**
  * Boilerplate module using regl
@@ -49,21 +51,8 @@ class ReglExample {
 
   createRegl = () => {
     this.draw = regl({
-      frag: `
-        precision mediump float;
-        uniform vec4 color;
-        void main () {
-          gl_FragColor = color;
-        }
-     `,
-
-      vert: `
-        precision mediump float;
-        attribute vec2 position;
-        void main () {
-          gl_Position = vec4(position, 0, 1);
-        }
-      `,
+      vert: vertShader,
+      frag: fragShader,
 
       attributes: {
         position: [
