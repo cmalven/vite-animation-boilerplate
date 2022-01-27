@@ -4,8 +4,9 @@ uniform float time;
 varying vec2 v_position;
 
 void main () {
-    float x = smoothstep(-1.5, 1.0, v_position.x);
-    float y = smoothstep(-1.5, 1.0, v_position.y);
+    // Convert to coordinate system with 0,0 in top left and 1,1 in bottom right
+    float x = smoothstep(-1.0, 1.0, v_position.x);
+    float y = smoothstep(1.0, -1.0, v_position.y);
 
     float r = x;
     float g = y;
