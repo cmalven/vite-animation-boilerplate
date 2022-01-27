@@ -15,6 +15,7 @@
     "include-media": "^1.4.10",
     "nice-color-palettes": "^3.0.0",
     "pixi.js": "^6.2.2",
+    "regl": "^2.1.0",
     "reset.css": "^2.0.2",
     "stats.js": "^0.17.0",
     "three": "^0.137.2"
