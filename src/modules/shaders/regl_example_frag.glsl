@@ -17,7 +17,7 @@ void main () {
 
     // Draw a circle in the center
     float center_dist = distance(vec2(0.5, 0.5), pos);
-    color += 1.0 - smoothstep(0.3, 0.3, center_dist);
+    color += 1.0 - step(0.3, center_dist);
 
     gl_FragColor = vec4(color, 1.0);
 }
