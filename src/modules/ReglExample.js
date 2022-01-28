@@ -50,27 +50,40 @@ class ReglExample {
   };
 
   createRegl = () => {
+    const meshSize = 1;
+
+    // Draw vertices to build out the mesh
+    const positions = new Array(meshSize*meshSize).fill(0).reduce((acc, val, idx) => {
+      const unitSize = 2 / meshSize;
+      const idxX = idx % meshSize;
+      const idxY = Math.floor(idx / meshSize);
+      const startX = idxX * unitSize;
+      const startY = idxY * unitSize;
+
+      return acc.concat([
+        [-1, -1],
+        [-1, 1],
+        [1, -1],
+
+        [1, -1],
+        [-1, 1],
+        [1, 1],
+      ]);
+    }, []);
+
     this.draw = regl({
       vert: vertShader,
       frag: fragShader,
 
       attributes: {
-        position: [
-          [-1, -1],
-          [-1, 1],
-          [1, -1],
-
-          [1, -1],
-          [-1, 1],
-          [1, 1],
-        ],
+        position: positions,
       },
 
       uniforms: {
         time: regl.prop('time'),
       },
 
-      count: 6,
+      count: meshSize*meshSize*6,
     });
 
     regl.frame(this.update);
