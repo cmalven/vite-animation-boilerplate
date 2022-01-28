@@ -50,33 +50,14 @@ class ReglExample {
   };
 
   createRegl = () => {
-    const meshSize = 1;
-
-    // Draw vertices to build out the mesh
-    const positions = new Array(meshSize*meshSize).fill(0).reduce((acc, val, idx) => {
-      const unitSize = 2 / meshSize;
-      const idxX = idx % meshSize;
-      const idxY = Math.floor(idx / meshSize);
-      const startX = idxX * unitSize;
-      const startY = idxY * unitSize;
-
-      return acc.concat([
-        [-1, -1],
-        [-1, 1],
-        [1, -1],
-
-        [1, -1],
-        [-1, 1],
-        [1, 1],
-      ]);
-    }, []);
+    const meshSize = 8;
 
     this.draw = regl({
       vert: vertShader,
       frag: fragShader,
 
       attributes: {
-        position: positions,
+        position: this.createMeshVertices(meshSize),
       },
 
       uniforms: {
@@ -87,6 +68,26 @@ class ReglExample {
     });
 
     regl.frame(this.update);
+  };
+
+  createMeshVertices = (size) => {
+    return new Array(size*size).fill(0).reduce((acc, val, idx) => {
+      const unitSize = 2 / size;
+      const idxX = idx % size;
+      const idxY = Math.floor(idx / size);
+      const x = -1 + idxX * unitSize;
+      const y = -1 + idxY * unitSize;
+
+      return acc.concat([
+        [x, y],
+        [x, y + unitSize],
+        [x + unitSize, y],
+
+        [x + unitSize, y],
+        [x, y + unitSize],
+        [x + unitSize, y + unitSize],
+      ]);
+    }, []);
   };
 
   update = ({ tick }) => {
