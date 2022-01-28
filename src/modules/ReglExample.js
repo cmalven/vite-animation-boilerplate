@@ -13,9 +13,13 @@ class ReglExample {
     this.options = options;
     this.container = document.querySelector(this.options.containerSelector);
 
+    // Pixel ratio
+    this.pixelRatio = Math.min(1.5, window.devicePixelRatio);
+
     // Regl
     this.regl = regl({
       container: this.container,
+      pixelRatio: this.pixelRatio,
     });
 
     // Time
@@ -102,8 +106,8 @@ class ReglExample {
   };
 
   onResize = () => {
-    const width = this.container.offsetWidth * window.devicePixelRatio;
-    const height = this.container.offsetHeight * window.devicePixelRatio;
+    const width = this.container.offsetWidth * this.pixelRatio;
+    const height = this.container.offsetHeight * this.pixelRatio;
     const maxDim = Math.max(width, height);
     const minDim = Math.min(width, height);
     const offset = (maxDim - minDim) / -2;
