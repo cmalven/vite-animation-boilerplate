@@ -1,5 +1,4 @@
-import r from 'regl';
-const regl = r();
+import regl from 'regl';
 import vertShader from './shaders/regl_example_vert.glsl?raw';
 import fragShader from './shaders/regl_example_frag.glsl?raw';
 
@@ -14,8 +13,10 @@ class ReglExample {
     this.options = options;
     this.container = document.querySelector(this.options.containerSelector);
 
-    // Canvas
-    this.canvas = null;
+    // Regl
+    this.regl = regl({
+      container: this.container,
+    });
 
     // Time
     this.lastTime = performance.now() / 1000;
@@ -26,12 +27,20 @@ class ReglExample {
       scalePeriod: 5,
     };
 
+    // Size
+    this.viewport = {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+
     this.init();
   }
 
   init = () => {
     this.createGui();
-    this.createCanvas();
+    this.addEventListeners();
     this.createRegl();
   };
 
@@ -44,30 +53,32 @@ class ReglExample {
     window.APP.gui.add(this.settings, 'scalePeriod', 0.5, 20);
   };
 
-  createCanvas = () => {
-    this.canvas = document.createElement('canvas');
-    this.container.appendChild(this.canvas);
+  addEventListeners = () => {
+    window.addEventListener('resize', this.onResize);
+    window.dispatchEvent(new Event('resize'));
   };
 
   createRegl = () => {
     const meshSize = 8;
 
-    this.draw = regl({
+    this.draw = this.regl({
       vert: vertShader,
       frag: fragShader,
+
+      viewport: this.regl.prop('viewport'),
 
       attributes: {
         position: this.createMeshVertices(meshSize),
       },
 
       uniforms: {
-        time: regl.prop('time'),
+        time: this.regl.prop('time'),
       },
 
       count: meshSize*meshSize*6,
     });
 
-    regl.frame(this.update);
+    this.regl.frame(this.update);
   };
 
   createMeshVertices = (size) => {
@@ -90,6 +101,23 @@ class ReglExample {
     }, []);
   };
 
+  onResize = () => {
+    const width = this.container.offsetWidth * window.devicePixelRatio;
+    const height = this.container.offsetHeight * window.devicePixelRatio;
+    const maxDim = Math.max(width, height);
+    const minDim = Math.min(width, height);
+    const offset = (maxDim - minDim) / -2;
+    const x = width < height ? offset : 0;
+    const y = width > height ? offset : 0;
+
+    this.viewport = {
+      x,
+      y,
+      width: maxDim,
+      height: maxDim,
+    };
+  };
+
   update = ({ tick }) => {
     if (window.APP.stats) window.APP.stats.begin();
 
@@ -98,12 +126,13 @@ class ReglExample {
     this.time += now - this.lastTime;
     this.lastTime = now;
 
-    regl.clear({
+    this.regl.clear({
       color: [0, 0, 0, 1],
     });
 
     this.draw({
       time: this.time,
+      viewport: this.viewport,
     });
 
     if (window.APP.stats) window.APP.stats.end();
