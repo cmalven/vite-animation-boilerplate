@@ -1,13 +1,12 @@
 precision highp float;
 
 uniform float time;
-varying vec2 v_position;
+uniform vec2 resolution;
 
 void main () {
     // Convert to coordinate system with 0,0 in bottom left and 1,1 in top right
-    float x = smoothstep(-1.0, 1.0, v_position.x);
-    float y = smoothstep(-1.0, 1.0, v_position.y);
-    vec2 pos = vec2(x, y);
+    vec2 pos = gl_FragCoord.xy / resolution;
+    pos.x *= resolution.x / resolution.y;
 
     // Set background color
     float r = pos.x;

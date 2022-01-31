@@ -1,5 +1,5 @@
 import { getGPUTier } from 'detect-gpu';
-import Example from './modules/CurtainsExample';
+import Example from './modules/ReglExample';
 
 window.APP = window.APP || {
   devMode: true,

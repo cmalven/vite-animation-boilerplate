@@ -32,12 +32,7 @@ class ReglExample {
     };
 
     // Size
-    this.viewport = {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-    };
+    this.resolution = { width: 0, height: 0 };
 
     this.init();
   }
@@ -63,13 +58,11 @@ class ReglExample {
   };
 
   createRegl = () => {
-    const meshSize = 8;
+    const meshSize = 2;
 
     this.draw = this.regl({
       vert: vertShader,
       frag: fragShader,
-
-      viewport: this.regl.prop('viewport'),
 
       attributes: {
         position: this.createMeshVertices(meshSize),
@@ -77,6 +70,7 @@ class ReglExample {
 
       uniforms: {
         time: this.regl.prop('time'),
+        resolution: this.regl.prop('resolution'),
       },
 
       count: meshSize*meshSize*6,
@@ -106,20 +100,7 @@ class ReglExample {
   };
 
   onResize = () => {
-    const width = this.container.offsetWidth * this.pixelRatio;
-    const height = this.container.offsetHeight * this.pixelRatio;
-    const maxDim = Math.max(width, height);
-    const minDim = Math.min(width, height);
-    const offset = (maxDim - minDim) / -2;
-    const x = width < height ? offset : 0;
-    const y = width > height ? offset : 0;
-
-    this.viewport = {
-      x,
-      y,
-      width: maxDim,
-      height: maxDim,
-    };
+    this.resolution = { width: this.container.offsetWidth * this.pixelRatio, height: this.container.offsetHeight * this.pixelRatio };
   };
 
   update = ({ tick }) => {
@@ -136,7 +117,7 @@ class ReglExample {
 
     this.draw({
       time: this.time,
-      viewport: this.viewport,
+      resolution: [this.resolution.width, this.resolution.height],
     });
 
     if (window.APP.stats) window.APP.stats.end();
