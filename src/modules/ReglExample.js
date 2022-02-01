@@ -34,6 +34,9 @@ class ReglExample {
     // Size
     this.resolution = { width: 0, height: 0 };
 
+    // Mouse
+    this.mouse = { x: 0, y: 0 };
+
     this.init();
   }
 
@@ -54,6 +57,7 @@ class ReglExample {
 
   addEventListeners = () => {
     window.addEventListener('resize', this.onResize);
+    window.addEventListener('mousemove', this.onMouseMove);
     window.dispatchEvent(new Event('resize'));
   };
 
@@ -71,6 +75,7 @@ class ReglExample {
       uniforms: {
         time: this.regl.prop('time'),
         resolution: this.regl.prop('resolution'),
+        mouse: this.regl.prop('mouse'),
       },
 
       count: meshSize*meshSize*6,
@@ -103,6 +108,10 @@ class ReglExample {
     this.resolution = { width: this.container.offsetWidth * this.pixelRatio, height: this.container.offsetHeight * this.pixelRatio };
   };
 
+  onMouseMove = (evt) => {
+    this.mouse = { x: evt.clientX, y: evt.clientY };
+  };
+
   update = ({ tick }) => {
     if (window.APP.stats) window.APP.stats.begin();
 
@@ -118,6 +127,7 @@ class ReglExample {
     this.draw({
       time: this.time,
       resolution: [this.resolution.width, this.resolution.height],
+      mouse: [this.mouse.x / this.container.offsetWidth, 1 - (this.mouse.y / this.container.offsetHeight)],
     });
 
     if (window.APP.stats) window.APP.stats.end();
