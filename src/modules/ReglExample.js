@@ -122,7 +122,7 @@ class ReglExample {
   };
 
   onMouseMove = (evt) => {
-    this.mouse = { x: evt.clientX, y: evt.clientY };
+    this.mouse = { x: evt.clientX * this.pixelRatio, y: this.resolution.height - evt.clientY * this.pixelRatio };
   };
 
   update = ({ tick }) => {
@@ -141,7 +141,7 @@ class ReglExample {
       time: this.time,
       resolution: Object.values(this.resolution),
       offset: Object.values(this.offset),
-      mouse: [this.mouse.x / this.container.offsetWidth, 1 - (this.mouse.y / this.container.offsetHeight)],
+      mouse: Object.values(this.mouse),
     });
 
     if (window.APP.stats) window.APP.stats.end();
