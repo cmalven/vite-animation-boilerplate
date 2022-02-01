@@ -4,6 +4,10 @@ uniform float time;
 uniform vec2 resolution;
 uniform vec2 mouse;
 
+float plot(vec2 st) {
+    return smoothstep(0.02, 0.0, abs(st.y - st.x));
+}
+
 void main () {
     float maxRes = max(resolution.x, resolution.y);
     float minRes = min(resolution.x, resolution.y);
@@ -24,6 +28,10 @@ void main () {
     float g = pos.y;
     float b = abs(sin(time / 2.0));
     vec3 color = vec3(r, g, b);
+
+    // Plot a line
+    float pct = plot(pos);
+    color = (1.0-pct)*color+pct*vec3(0.0,1.0,0.0);
 
     // Draw a circle in the center
     float center_dist = distance(vec2(0.5, 0.5), scaledPos);
