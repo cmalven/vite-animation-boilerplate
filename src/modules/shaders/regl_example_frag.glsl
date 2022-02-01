@@ -19,21 +19,28 @@ void main () {
     vec2 scaledPos = (gl_FragCoord.xy + offset) / resolution.zz;
     vec2 scaledMousePos = (mouse + offset) / resolution.zz;
 
-    // Set background color
+    // Initial color
+    vec3 color = vec3(0.0);
+
+    // Create a circle
+    float center_dist = distance(scaledMousePos, scaledPos);
+    float radius = 0.15 * scale;
+    float smoothing = 0.001;
+    float circle = 1.0 - smoothstep(radius-smoothing, radius+smoothing, center_dist);
+
+    // Background color
     float r = pos.x;
     float g = pos.y;
     float b = abs(sin(time / 2.0));
-    vec3 color = vec3(r, g, b);
+    color += vec3(r, g, b) * (1.0 - circle);
+
+    // Circle color
+    vec3 reverseGrad = vec3(g, r, b);
+    color += circle * reverseGrad;
 
     // Plot a line
     float pct = plot(pos);
     color = (1.0-pct)*color+pct*vec3(0.0,1.0,0.0);
-
-    // Draw a circle in the center
-    float center_dist = distance(scaledMousePos, scaledPos);
-    float radius = 0.15 * scale;
-    float smoothing = 0.001;
-    color += 1.0 - smoothstep(radius-smoothing, radius+smoothing, center_dist);
 
     gl_FragColor = vec4(color, 1.0);
 }
