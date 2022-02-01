@@ -4,9 +4,10 @@ uniform float time;
 uniform vec4 resolution;
 uniform vec2 mouse;
 uniform vec2 offset;
+uniform float scale;
 
 float plot(vec2 st) {
-    return smoothstep(0.005, 0.0, abs(st.y - st.x));
+    return smoothstep(0.002, 0.0, abs(st.y - st.x));
 }
 
 void main () {
@@ -30,7 +31,9 @@ void main () {
 
     // Draw a circle in the center
     float center_dist = distance(scaledMousePos, scaledPos);
-    color += 1.0 - step(0.15, center_dist);
+    float radius = 0.15 * scale;
+    float smoothing = 0.001;
+    color += 1.0 - smoothstep(radius-smoothing, radius+smoothing, center_dist);
 
     gl_FragColor = vec4(color, 1.0);
 }

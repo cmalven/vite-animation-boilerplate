@@ -29,7 +29,7 @@ class ReglExample {
 
     // Settings
     this.settings = {
-      scalePeriod: 5,
+      scale: 1,
     };
 
     // Size
@@ -56,7 +56,7 @@ class ReglExample {
     const folder = window.APP.gui.setFolder('ReglExample');
     folder.open();
 
-    window.APP.gui.add(this.settings, 'scalePeriod', 0.5, 20);
+    window.APP.gui.add(this.settings, 'scale', 0.01, 2);
   };
 
   addEventListeners = () => {
@@ -81,6 +81,7 @@ class ReglExample {
         resolution: this.regl.prop('resolution'),
         mouse: this.regl.prop('mouse'),
         offset: this.regl.prop('offset'),
+        scale: this.regl.prop('uniforms.scale'),
       },
 
       count: meshSize*meshSize*6,
@@ -143,6 +144,9 @@ class ReglExample {
       resolution: Object.values(this.resolution),
       offset: Object.values(this.offset),
       mouse: Object.values(this.mouse),
+      uniforms: {
+        scale: this.settings.scale,
+      },
     });
 
     if (window.APP.stats) window.APP.stats.end();
