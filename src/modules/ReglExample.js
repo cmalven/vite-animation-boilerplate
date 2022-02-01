@@ -14,12 +14,13 @@ class ReglExample {
     this.container = document.querySelector(this.options.containerSelector);
 
     // Pixel ratio
-    this.pixelRatio = Math.min(1.5, window.devicePixelRatio);
+    this.pixelRatio = Math.min(1.3, window.devicePixelRatio);
 
     // Regl
     this.regl = regl({
       container: this.container,
       pixelRatio: this.pixelRatio,
+      attributes: { antialias: false },
     });
 
     // Time
