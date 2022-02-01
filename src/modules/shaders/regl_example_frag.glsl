@@ -1,27 +1,20 @@
 precision highp float;
 
 uniform float time;
-uniform vec2 resolution;
+uniform vec4 resolution;
 uniform vec2 mouse;
+uniform vec2 offset;
 
 float plot(vec2 st) {
     return smoothstep(0.02, 0.0, abs(st.y - st.x));
 }
 
 void main () {
-    float maxRes = max(resolution.x, resolution.y);
-    float minRes = min(resolution.x, resolution.y);
-    float off = (maxRes - minRes) / 2.0;
-    float xOffset = resolution.x < resolution.y ? off : 0.0;
-    float yOffset = resolution.x > resolution.y ? off : 0.0;
-    vec2 offset = vec2(xOffset, yOffset);
-    vec2 scaledRes = vec2(maxRes, maxRes);
-
     // The true position within the viewport
-    vec2 pos = gl_FragCoord.xy / resolution;
+    vec2 pos = gl_FragCoord.xy / resolution.xy;
 
     // The position with the viewport scaled to the aspect ratio
-    vec2 scaledPos = (gl_FragCoord.xy + offset) / scaledRes;
+    vec2 scaledPos = (gl_FragCoord.xy + offset) / resolution.zz;
 
     // Set background color
     float r = pos.x;

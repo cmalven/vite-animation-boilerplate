@@ -32,7 +32,10 @@ class ReglExample {
     };
 
     // Size
-    this.resolution = { width: 0, height: 0 };
+    this.resolution = { width: 0, height: 0, max: 0, min: 0 };
+
+    // Drawing offset
+    this.offset = { x: 0, y: 0 };
 
     // Mouse
     this.mouse = { x: 0, y: 0 };
@@ -76,6 +79,7 @@ class ReglExample {
         time: this.regl.prop('time'),
         resolution: this.regl.prop('resolution'),
         mouse: this.regl.prop('mouse'),
+        offset: this.regl.prop('offset'),
       },
 
       count: meshSize*meshSize*6,
@@ -105,7 +109,16 @@ class ReglExample {
   };
 
   onResize = () => {
-    this.resolution = { width: this.container.offsetWidth * this.pixelRatio, height: this.container.offsetHeight * this.pixelRatio };
+    const width = this.container.offsetWidth * this.pixelRatio;
+    const height = this.container.offsetHeight * this.pixelRatio;
+    const max = Math.max(width, height);
+    const min = Math.min(width, height);
+    const offset = (max - min) / 2;
+    const x = width < height ? offset : 0;
+    const y = width > height ? offset : 0;
+
+    this.resolution = { width, height, max, min };
+    this.offset = { x, y };
   };
 
   onMouseMove = (evt) => {
@@ -126,7 +139,8 @@ class ReglExample {
 
     this.draw({
       time: this.time,
-      resolution: [this.resolution.width, this.resolution.height],
+      resolution: Object.values(this.resolution),
+      offset: Object.values(this.offset),
       mouse: [this.mouse.x / this.container.offsetWidth, 1 - (this.mouse.y / this.container.offsetHeight)],
     });
 
