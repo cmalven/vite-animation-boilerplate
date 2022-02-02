@@ -22,11 +22,13 @@ void main () {
     // Initial color
     vec3 color = vec3(0.0);
 
+    // Smoothing amount
+    float aa = 0.0001;
+
     // Create a circle
     float center_dist = distance(scaledMousePos, scaledPos);
     float radius = 0.15 * scale;
-    float smoothing = 0.001;
-    float circle = 1.0 - smoothstep(radius-smoothing, radius+smoothing, center_dist);
+    float circle = 1.0 - smoothstep(radius-aa, radius+aa, center_dist);
 
     // Background color
     float r = pos.x;
