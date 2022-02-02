@@ -32,11 +32,13 @@ void main () {
     float r = pos.x;
     float g = pos.y;
     float b = abs(sin(time / 2.0));
-    color += vec3(r, g, b) * (1.0 - circle);
+    vec3 grad = vec3(r, g, b);
 
     // Circle color
     vec3 reverseGrad = vec3(g, r, b);
-    color += circle * reverseGrad;
+
+    // Draw circle and background
+    color += mix(grad, reverseGrad, circle);
 
     // Plot a line
     float pct = plot(pos);
