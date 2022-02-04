@@ -19,6 +19,9 @@ void main () {
     vec2 scaledPos = (gl_FragCoord.xy + offset) / resolution.zz;
     vec2 scaledMousePos = (mouse + offset) / resolution.zz;
 
+    // If you'd like all drawing to be centered on the screen (0,0 = center)
+    vec2 scaledPosCentered = (gl_FragCoord.xy - 0.5 * resolution.xy) / resolution.zz;
+
     // Initial color
     vec3 color = vec3(0.0);
 
