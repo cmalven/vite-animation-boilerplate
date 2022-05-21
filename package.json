@@ -10,23 +10,23 @@
     "@malven/gui": "^1.6.0",
     "canvas-sketch-util": "^1.10.0",
     "curtainsjs": "^8.1.3",
-    "detect-gpu": "^4.0.6",
-    "gsap": "^3.9.1",
+    "detect-gpu": "^4.0.22",
+    "gsap": "^3.10.4",
     "include-media": "^1.4.10",
     "nice-color-palettes": "^3.0.0",
-    "pixi.js": "^6.2.2",
+    "pixi.js": "^6.3.2",
     "regl": "^2.1.0",
     "reset.css": "^2.0.2",
     "stats.js": "^0.17.0",
-    "three": "^0.137.2"
+    "three": "^0.140.2"
   },
   "devDependencies": {
     "@malven/eslint-config": "^2.0.0",
-    "eslint": "^8.7.0",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.3.2",
-    "sass": "^1.49.0",
-    "vite": "^2.7.13"
+    "eslint": "^8.16.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^12.4.1",
+    "sass": "^1.52.1",
+    "vite": "^2.9.9"
   },
   "husky": {
     "hooks": {
