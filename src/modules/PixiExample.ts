@@ -5,26 +5,33 @@ import colors from 'nice-color-palettes';
  * Boilerplate module using PIXI.js
  */
 
+interface ItemSprite extends PIXI.Sprite {
+  baseScale: number
+}
+
 class PixiExample {
-  constructor(options = {
-    containerSelector: '[data-app-container]',
-  }) {
-    this.options = options;
-    this.container = document.querySelector(this.options.containerSelector);
-    this.app = null;
-    this.particleContainer = null;
+  // Container
+  container: HTMLElement | null;
 
-    // Set an arbitrary size for purposes of scaling the scene
-    this.width = 2000;
-    this.height = 2000;
+  // Pixi
+  app?: PIXI.Application;
+  particleContainer?: PIXI.ParticleContainer;
 
-    // Time
-    this.time = 0;
+  // Set an arbitrary size for purposes of scaling the scene
+  width = 2000;
+  height = 2000;
 
-    // Settings
-    this.settings = {
-      scalePeriod: 5,
-    };
+  // Time
+  time = 0;
+
+  // Settings
+  settings = {
+    scalePeriod: 5,
+  };
+
+  constructor(containerSelector = '[data-app-container]') {
+    this.container = document.querySelector(containerSelector);
+    if (!this.container) return;
 
     this.init();
   }
@@ -45,6 +52,8 @@ class PixiExample {
   };
 
   createApp = () => {
+    if (!this.container) return;
+    
     PIXI.utils.skipHello();
     this.app = new PIXI.Application({
       backgroundColor: 0x212322,
@@ -56,6 +65,8 @@ class PixiExample {
 
     // Resize the renderer on window resize
     window.addEventListener('resize', () => {
+      if (!this.container || !this.app) return;
+
       this.app.renderer.resize(this.container.offsetWidth, this.container.offsetHeight);
       const scale = Math.max(this.app.view.width / this.width, this.app.view.height / this.height);
       this.app.stage.scale.set(scale, scale);
@@ -65,6 +76,8 @@ class PixiExample {
   };
 
   createItems = () => {
+    if (!this.app) return;
+
     // Create the particle container
     this.particleContainer = new PIXI.ParticleContainer(700, {
       position: true,
@@ -82,12 +95,12 @@ class PixiExample {
     textureGraphic.beginFill(0xeeeeee);
     textureGraphic.drawEllipse(0, 0, 30, 30);
     textureGraphic.endFill();
-    let spriteTexture = this.app.renderer.generateTexture(textureGraphic);
+    const spriteTexture = this.app.renderer.generateTexture(textureGraphic);
 
     const itemCount = 200;
     for (let idx = 0, length = itemCount; idx < length; idx++) {
       const randColor = palette[Math.floor(Math.random() * palette.length)];
-      const sprite = new PIXI.Sprite(spriteTexture);
+      const sprite = new PIXI.Sprite(spriteTexture) as ItemSprite;
       sprite.baseScale = Math.random();
       sprite.anchor.set(0.5, 0.5);
       sprite.position.x = (Math.random() - 0.5) * this.width;
@@ -98,13 +111,16 @@ class PixiExample {
   };
 
   updateItems = () => {
-    this.particleContainer.children.forEach(sprite => {
-      const iteration = this.time + sprite.baseScale * this.settings.scalePeriod;
+    if (!this.particleContainer) return;
+
+    this.particleContainer.children.forEach((sprite) => {
+      const itemSprite = sprite as ItemSprite;
+      const iteration = this.time + itemSprite.baseScale * this.settings.scalePeriod;
       const amplitude = 0.8;
       const period = this.settings.scalePeriod;
 
       const scaleEffect = amplitude * Math.sin((Math.PI * 2) * (iteration / period));
-      sprite.scale.x = sprite.scale.y = scaleEffect + sprite.baseScale;
+      itemSprite.scale.x = itemSprite.scale.y = scaleEffect + itemSprite.baseScale;
     });
   };
 
