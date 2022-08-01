@@ -4,33 +4,33 @@
  */
 
 class CanvasExample {
-  constructor(options = {
-    containerSelector: '[data-app-container]',
-  }) {
-    this.options = options;
-    this.container = document.querySelector(this.options.containerSelector);
+  // Container
+  container: HTMLElement | null;
 
-    // Canvas
-    this.canvas = null;
-    this.ctx = null;
+  // Canvas
+  canvas?: HTMLCanvasElement;
+  ctx?: CanvasRenderingContext2D | null;
 
-    // Items
-    this.item = {
-      size: 100,
-      scale: 1,
-    };
+  // Items
+  item = {
+    size: 100,
+    scale: 1,
+  };
 
-    // Set the size
-    this.width = 1000;
+  // Set the size
+  width = 1000;
 
-    // Time
-    this.lastTime = performance.now() / 1000;
-    this.time = 0;
+  // Time
+  lastTime = performance.now() / 1000;
+  time = 0;
 
-    // Settings
-    this.settings = {
-      scalePeriod: 5,
-    };
+  // Settings
+  settings = {
+    scalePeriod: 5,
+  };
+
+  constructor(containerSelector = '[data-app-container]') {
+    this.container = document.querySelector(containerSelector);
 
     this.init();
   }
@@ -51,10 +51,12 @@ class CanvasExample {
   };
 
   createCanvas = () => {
+    if (!this.container) return;
+
     this.canvas = document.createElement('canvas');
     this.container.appendChild(this.canvas);
-    this.canvas.setAttribute('width', this.width);
-    this.canvas.setAttribute('height', this.height);
+    this.canvas.setAttribute('width', String(this.width));
+    this.canvas.setAttribute('height', String(this.width));
     this.ctx = this.canvas.getContext('2d');
     
     // Resize
@@ -63,6 +65,8 @@ class CanvasExample {
   };
 
   resize = () => {
+    if (!this.canvas) return;
+
     const winRatio = window.innerHeight / window.innerWidth;
     const height = this.width * winRatio;
 
@@ -71,10 +75,13 @@ class CanvasExample {
   };
 
   clear = () => {
+    if (!this.canvas || !this.ctx) return;
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   };
 
   updateItems = () => {
+    if (!this.ctx || !this.canvas) return;
+
     // Update scale
     const iteration = this.time + this.settings.scalePeriod;
     const amplitude = 0.3;
