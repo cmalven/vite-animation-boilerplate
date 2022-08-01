@@ -1,43 +1,49 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import vertShader from './shaders/three_image_example_vert.glsl?raw';
-import fragShader from './shaders/three_image_example_frag.glsl?raw';
+import vertShader from './shaders/three_image_example_vert.glsl';
+import fragShader from './shaders/three_image_example_frag.glsl';
 
 /**
  * Boilerplate module using THREE.js
  */
 
+type Pos2D = { x: number, y: number };
+
+type Uniforms = {
+  [key: string]: { value: number | THREE.Texture | Pos2D | undefined };
+}
+
 class ThreeImageExample {
-  constructor(options = {
-    containerSelector: '[data-app-container]',
-  }) {
-    this.options = options;
-    this.container = document.querySelector(this.options.containerSelector);
+  // Container
+  container: HTMLElement | null;
 
-    // Time
-    this.clock = new THREE.Clock();
-    this.time = 0;
+  // Time
+  clock = new THREE.Clock();
+  time = 0;
 
-    // THREE items
-    this.renderer;
-    this.camera;
-    this.scene;
-    this.controls;
-    this.imageTexture;
-    this.uniforms;
-    this.geometry;
-    this.mesh;
+  // THREE items
+  renderer?: THREE.WebGLRenderer;
+  camera?: THREE.PerspectiveCamera;
+  scene?: THREE.Scene;
+  controls?: OrbitControls;
+  mesh?: THREE.Mesh;
+  geometry?: THREE.BufferGeometry;
+  uniforms: Uniforms = {};
+  imageTexture?: THREE.Texture;
 
-    // Mouse
-    this.currentMouse = { x: 0, y: 0 };
-    this.targetMouse = { x: 0, y: 0 };
+  // Mouse
+  currentMouse: Pos2D = { x: 0, y: 0 };
+  targetMouse: Pos2D = { x: 0, y: 0 };
 
-    // Settings
-    this.settings = {
-      cameraDistance: 100,
-      bgColor: 0x212322,
-      mouseEase: 0.05,
-    };
+  // Settings
+  settings = {
+    cameraDistance: 100,
+    bgColor: 0x212322,
+    mouseEase: 0.05,
+  };
+
+  constructor(containerSelector = '[data-app-container]') {
+    this.container = document.querySelector(containerSelector);
 
     this.init();
   }
@@ -80,6 +86,8 @@ class ThreeImageExample {
   };
 
   createApp = () => {
+    if (!this.container) return;
+
     // Renderer
     this.renderer = new THREE.WebGLRenderer({
       antialias: false,
@@ -96,12 +104,12 @@ class ThreeImageExample {
 
     // Orbit Controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.enableKeys = false;
     this.controls.enableZoom = false;
     this.controls.enableDamping = false;
 
     // Resize the renderer on window resize
     window.addEventListener('resize', () => {
+      if (!this.container || !this.renderer || !this.camera) return;
       this.camera.aspect = this.container.offsetWidth / this.container.offsetHeight;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
@@ -109,13 +117,15 @@ class ThreeImageExample {
   };
 
   createItems = () => {
+    if (!this.scene) return;
+
     // Create the geometry
     const imageRatio = 1333 / 2000;
     const imageWidth = 60;
     this.geometry = new THREE.PlaneBufferGeometry(imageWidth, imageWidth * imageRatio, 16 * 2, 9 * 2);
 
     // Create the material
-    let shaderMaterial = new THREE.ShaderMaterial({
+    const shaderMaterial = new THREE.ShaderMaterial({
       uniforms: this.uniforms,
       vertexShader: vertShader,
       fragmentShader: fragShader,
@@ -133,20 +143,23 @@ class ThreeImageExample {
   };
 
   addEventListeners = () => {
+    if (!this.container) return;
     this.container.addEventListener('mousemove', this.onMouseMove);
   };
 
-  onMouseMove = evt => {
+  onMouseMove = (evt: MouseEvent) => {
+    if (!this.camera) return;
+
     // Project mouse position onto Z plane based on camera
-    let vec = new THREE.Vector3();
-    let pos = new THREE.Vector3();
+    const vec = new THREE.Vector3();
+    const pos = new THREE.Vector3();
     vec.set(
       (evt.clientX / window.innerWidth) * 2 - 1,
       - (evt.clientY / window.innerHeight) * 2 + 1,
       0.5);
     vec.unproject(this.camera);
     vec.sub(this.camera.position).normalize();
-    let distance = - this.camera.position.z / vec.z;
+    const distance = - this.camera.position.z / vec.z;
     pos.copy(this.camera.position).add(vec.multiplyScalar(distance));
 
     this.targetMouse = { x: pos.x, y: pos.y };
@@ -160,17 +173,14 @@ class ThreeImageExample {
     this.currentMouse.y += mouseDiffY;
   };
 
-  updateItems = () => {
-
-  };
-
   update = () => {
+    if (!this.renderer || !this.camera || !this.scene) return;
+
     if (window.APP.stats) window.APP.stats.begin();
     this.time = this.clock.getElapsedTime();
 
     this.updateMouse();
     this.updateUniforms();
-    this.updateItems();
 
     this.renderer.render(this.scene, this.camera);
     window.requestAnimationFrame(this.update);
