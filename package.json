@@ -1,32 +1,43 @@
 {
+  "name": "vite-animation-boilerplate",
+  "type": "module",
   "scripts": {
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
     "test": "echo \"This template does not include a test runner by default.\" && exit 0",
-    "lint-scripts": "eslint --fix"
+    "lint-scripts": "eslint --fix",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@malven/gui": "^1.6.0",
     "canvas-sketch-util": "^1.10.0",
     "curtainsjs": "^8.1.3",
-    "detect-gpu": "^4.0.23",
+    "detect-gpu": "^4.0.33",
     "gsap": "^3.10.4",
     "include-media": "^1.4.10",
     "nice-color-palettes": "^3.0.0",
-    "pixi.js": "^6.3.2",
+    "pixi.js": "^6.5.1",
     "regl": "^2.1.0",
     "reset.css": "^2.0.2",
     "stats.js": "^0.17.0",
-    "three": "^0.141.0"
+    "three": "^0.143.0"
   },
   "devDependencies": {
     "@malven/eslint-config": "^2.0.0",
-    "eslint": "^8.16.0",
+    "@malven/eslint-config-typescript": "^1.0.0",
+    "@types/stats.js": "^0.17.0",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "@vitejs/plugin-legacy": "^2.0.0",
+    "eslint": "^8.21.0",
     "husky": "^8.0.1",
-    "lint-staged": "^12.4.2",
-    "sass": "^1.52.1",
-    "vite": "^2.9.9"
+    "lint-staged": "^13.0.3",
+    "sass": "^1.54.0",
+    "typescript": "^4.7.4",
+    "vite": "^3.0.4",
+    "vite-plugin-glsl": "^0.3.0",
+    "vite-plugin-string": "^1.1.2"
   },
   "husky": {
     "hooks": {
@@ -35,8 +46,9 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "npm run lint-scripts"
+    "*.ts": [
+      "npm run lint-scripts",
+      "npm run typecheck"
     ]
   }
 }

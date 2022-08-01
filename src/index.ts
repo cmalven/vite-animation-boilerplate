@@ -1,7 +1,24 @@
 import { getGPUTier } from 'detect-gpu';
 import Example from './modules/ReglExample';
 
-window.APP = window.APP || {
+import type Gui from '@malven/gui';
+import type { TierResult } from 'detect-gpu';
+import type Stats from 'stats.js';
+
+interface App {
+  devMode: boolean,
+  gui?: Gui,
+  gpu?: TierResult,
+  stats?: Stats,
+}
+
+declare global {
+  interface Window {
+    APP: App;
+  }
+}
+
+window.APP = {
   devMode: true,
 };
 

@@ -1,45 +1,58 @@
 import regl from 'regl';
-import vertShader from './shaders/regl_example_vert.glsl?raw';
-import fragShader from './shaders/regl_example_frag.glsl?raw';
+import vertShader from './shaders/regl_example_vert.glsl';
+import fragShader from './shaders/regl_example_frag.glsl';
+
+type ReglProps = {
+  time: number,
+  resolution: [number, number, number, number],
+  mouse: [number, number],
+  offset: [number, number],
+  scale: number,
+}
 
 /**
  * Boilerplate module using regl
  */
 
 class ReglExample {
-  constructor(options = {
-    containerSelector: '[data-app-container]',
-  }) {
-    this.options = options;
-    this.container = document.querySelector(this.options.containerSelector);
+  // Container
+  container: HTMLElement | null;
 
-    // Pixel ratio
-    this.pixelRatio = Math.min(1.3, window.devicePixelRatio);
+  // Pixel ratio
+  pixelRatio = Math.min(1.3, window.devicePixelRatio);
 
-    // Regl
+  // Regl
+  regl?: regl.Regl;
+  draw?: regl.DrawCommand;
+
+  // Time
+  lastTime = performance.now() / 1000;
+  time = 0;
+
+  // Settings
+  settings = {
+    scale: 1,
+  };
+
+  // Size
+  resolution = { width: 0, height: 0, max: 0, min: 0 };
+
+  // Drawing offset
+  offset = { x: 0, y: 0 };
+
+  // Mouse
+  mouse = { x: 0, y: 0 };
+
+  constructor(containerSelector = '[data-app-container]') {
+    this.container = document.querySelector(containerSelector);
+    if (!this.container) return;
+
+    // Initial regl setup
     this.regl = regl({
       container: this.container,
       pixelRatio: this.pixelRatio,
       attributes: { antialias: false },
     });
-
-    // Time
-    this.lastTime = performance.now() / 1000;
-    this.time = 0;
-
-    // Settings
-    this.settings = {
-      scale: 1,
-    };
-
-    // Size
-    this.resolution = { width: 0, height: 0, max: 0, min: 0 };
-
-    // Drawing offset
-    this.offset = { x: 0, y: 0 };
-
-    // Mouse
-    this.mouse = { x: 0, y: 0 };
 
     this.init();
   }
@@ -66,6 +79,8 @@ class ReglExample {
   };
 
   createRegl = () => {
+    if (!this.regl) return;
+
     const meshSize = 2;
 
     this.draw = this.regl({
@@ -77,11 +92,11 @@ class ReglExample {
       },
 
       uniforms: {
-        time: this.regl.prop('time'),
-        resolution: this.regl.prop('resolution'),
-        mouse: this.regl.prop('mouse'),
-        offset: this.regl.prop('offset'),
-        scale: this.regl.prop('uniforms.scale'),
+        time: this.regl.prop<ReglProps, 'time'>('time'),
+        resolution: this.regl.prop<ReglProps, 'resolution'>('resolution'),
+        mouse: this.regl.prop<ReglProps, 'mouse'>('mouse'),
+        offset: this.regl.prop<ReglProps, 'offset'>('offset'),
+        scale: this.regl.prop<ReglProps, 'scale'>('scale'),
       },
 
       count: meshSize*meshSize*6,
@@ -90,7 +105,7 @@ class ReglExample {
     this.regl.frame(this.update);
   };
 
-  createMeshVertices = (size) => {
+  createMeshVertices = (size: number) => {
     return new Array(size*size).fill(0).reduce((acc, val, idx) => {
       const unitSize = 2 / size;
       const idxX = idx % size;
@@ -111,6 +126,8 @@ class ReglExample {
   };
 
   onResize = () => {
+    if (!this.container) return;
+
     const width = this.container.offsetWidth * this.pixelRatio;
     const height = this.container.offsetHeight * this.pixelRatio;
     const max = Math.max(width, height);
@@ -123,11 +140,11 @@ class ReglExample {
     this.offset = { x, y };
   };
 
-  onMouseMove = (evt) => {
+  onMouseMove = (evt: MouseEvent) => {
     this.mouse = { x: evt.clientX * this.pixelRatio, y: this.resolution.height - evt.clientY * this.pixelRatio };
   };
 
-  update = ({ tick }) => {
+  update = (context: regl.DefaultContext) => {
     if (window.APP.stats) window.APP.stats.begin();
 
     // Update time
@@ -135,19 +152,19 @@ class ReglExample {
     this.time += now - this.lastTime;
     this.lastTime = now;
 
-    this.regl.clear({
-      color: [0, 0, 0, 1],
-    });
+    if (this.regl && this.draw) {
+      this.regl.clear({
+        color: [0, 0, 0, 1],
+      });
 
-    this.draw({
-      time: this.time,
-      resolution: Object.values(this.resolution),
-      offset: Object.values(this.offset),
-      mouse: Object.values(this.mouse),
-      uniforms: {
+      this.draw({
+        time: this.time,
+        resolution: Object.values(this.resolution),
+        offset: Object.values(this.offset),
+        mouse: Object.values(this.mouse),
         scale: this.settings.scale,
-      },
-    });
+      });
+    }
 
     if (window.APP.stats) window.APP.stats.end();
   };
