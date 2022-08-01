@@ -31,7 +31,6 @@ class PixiExample {
 
   constructor(containerSelector = '[data-app-container]') {
     this.container = document.querySelector(containerSelector);
-    if (!this.container) return;
 
     this.init();
   }
