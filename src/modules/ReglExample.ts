@@ -92,17 +92,21 @@ class ReglExample {
       },
 
       uniforms: {
-        time: this.regl.prop<ReglProps, 'time'>('time'),
-        resolution: this.regl.prop<ReglProps, 'resolution'>('resolution'),
-        mouse: this.regl.prop<ReglProps, 'mouse'>('mouse'),
-        offset: this.regl.prop<ReglProps, 'offset'>('offset'),
-        scale: this.regl.prop<ReglProps, 'scale'>('scale'),
+        time: this.reglProp('time'),
+        resolution: this.reglProp('resolution'),
+        mouse: this.reglProp('mouse'),
+        offset: this.reglProp('offset'),
+        scale: this.reglProp('scale'),
       },
 
       count: meshSize*meshSize*6,
     });
 
     this.regl.frame(this.update);
+  };
+
+  reglProp = (name: keyof ReglProps) => {
+    return this.regl?.prop<ReglProps, keyof ReglProps>(name);
   };
 
   createMeshVertices = (size: number) => {
@@ -163,7 +167,7 @@ class ReglExample {
         offset: Object.values(this.offset),
         mouse: Object.values(this.mouse),
         scale: this.settings.scale,
-      });
+      } as ReglProps);
     }
 
     if (window.APP.stats) window.APP.stats.end();
