@@ -9,30 +9,8 @@ import {
   OGLRenderingContext,
   Vec3,
 } from 'ogl';
-
-const vertex = `
-    attribute vec3 position;
-    attribute vec3 normal;
-    uniform mat4 modelViewMatrix;
-    uniform mat4 projectionMatrix;
-    uniform mat3 normalMatrix;
-    varying vec3 vNormal;
-    void main() {
-        vNormal = normalize(normalMatrix * normal);
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-`;
-
-const fragment = `
-    precision highp float;
-    varying vec3 vNormal;
-    void main() {
-        vec3 normal = normalize(vNormal);
-        float lighting = dot(normal, normalize(vec3(-0.1, 0.8, 0.6)));
-        gl_FragColor.rgb = vec3(0.2, 0.8, 1.0) + lighting * 0.1;
-        gl_FragColor.a = 1.0;
-    }
-`;
+import vertex from './shaders/ogl_basic_example_vert.glsl';
+import fragment from './shaders/ogl_basic_example_frag.glsl';
 
 /**
  * Boilerplate module using OGL
@@ -55,6 +33,9 @@ class OglBasicExample {
   controls?: Orbit;
   cube?: Mesh;
 
+  // Uniforms
+  uniforms: { [key: string]: { value: number | number[] } } = {};
+
   // Settings
   settings = {
     cameraDistance: 5,
@@ -72,6 +53,7 @@ class OglBasicExample {
     this.createGui();
     this.createApp();
     this.createItems();
+    this.updateUniforms();
     this.update();
   };
 
@@ -117,6 +99,7 @@ class OglBasicExample {
     this.program = new Program(this.gl, {
       vertex,
       fragment,
+      uniforms: this.uniforms,
     });
   };
 
@@ -149,11 +132,24 @@ class OglBasicExample {
     this.camera.perspective({ aspect: this.gl.canvas.width / this.gl.canvas.height });
   };
 
+  updateUniforms = () => {
+    if (!this.program) return;
+
+    this.uniforms = {
+      time: { value: this.time },
+    };
+
+    this.program.uniforms = this.uniforms;
+  };
+
   update = () => {
     if (!this.controls || !this.renderer) return;
 
     // Update controls
     this.controls.update();
+
+    // Update uniforms
+    this.updateUniforms();
 
     // Update time
     const now = performance.now() / 1000;
