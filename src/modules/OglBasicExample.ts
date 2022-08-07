@@ -8,6 +8,7 @@ import {
   Orbit,
   OGLRenderingContext,
   Vec3,
+  Texture, TextureLoader,
 } from 'ogl';
 import vertex from './shaders/ogl_basic_example_vert.glsl';
 import fragment from './shaders/ogl_basic_example_frag.glsl';
@@ -32,9 +33,10 @@ class OglBasicExample {
   program?: Program;
   controls?: Orbit;
   cube?: Mesh;
+  texture?: Texture;
 
   // Uniforms
-  uniforms: { [key: string]: { value: number | number[] } } = {};
+  uniforms: { [key: string]: { value: number | number[] | Texture | undefined } } = {};
 
   // Settings
   settings = {
@@ -111,6 +113,9 @@ class OglBasicExample {
     this.cube = new Mesh(this.gl, { geometry: cubeGeometry, program: this.program });
     this.cube.position.set(0, 0, 0);
     this.cube.setParent(this.scene);
+
+    // Texture
+    this.texture = TextureLoader.load(this.gl, { src: '/assets/gradient-texture.jpg' });
   };
 
   updateItems = () => {
@@ -137,6 +142,7 @@ class OglBasicExample {
 
     this.uniforms = {
       time: { value: this.time },
+      textureMap: { value: this.texture },
     };
 
     this.program.uniforms = this.uniforms;
