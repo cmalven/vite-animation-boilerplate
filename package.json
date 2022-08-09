@@ -17,6 +17,7 @@
     "gsap": "^3.10.4",
     "include-media": "^1.4.10",
     "nice-color-palettes": "^3.0.0",
+    "ogl": "0.0.97",
     "pixi.js": "^6.5.1",
     "regl": "^2.1.0",
     "reset.css": "^2.0.2",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@malven/eslint-config": "^2.0.0",
     "@malven/eslint-config-typescript": "^1.0.0",
+    "@types/ogl": "npm:ogl-types@0.0.97",
     "@types/stats.js": "^0.17.0",
     "@types/three": "^0.143.0",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
@@ -35,6 +37,7 @@
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "sass": "^1.54.0",
+    "terser": "^5.14.2",
     "typescript": "^4.7.4",
     "vite": "^3.0.4",
     "vite-plugin-glsl": "^0.3.0"
