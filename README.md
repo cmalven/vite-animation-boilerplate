@@ -9,6 +9,14 @@ npm i
 npm start
 ```
 
+## Changing the example
+
+All available examples are located in the `/src/modules/` directory. To use a different example, simply change the following line in `/src/index.ts`
+
+```typescript
+import Example from './modules/WhateverExample';
+```
+
 ## Deploy
 
 ```shell
