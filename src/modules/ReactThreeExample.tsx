@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import React from 'react';
+import React, { StrictMode } from 'react';
 import { Canvas } from '@react-three/fiber';
 import ReactThreeExperience from './components/ReactThreeExperience';
 
@@ -48,9 +48,11 @@ class ReactThreeExample {
     if (!this.root) return;
 
     this.root.render(
-      <Canvas>
-        <ReactThreeExperience />
-      </Canvas>,
+      <StrictMode>
+        <Canvas>
+          <ReactThreeExperience />
+        </Canvas>,
+      </StrictMode>,
     );
   };
 }
