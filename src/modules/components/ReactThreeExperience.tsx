@@ -1,4 +1,5 @@
 import { useFrame } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
 import React from 'react';
 import { useRef } from 'react';
 import type { Mesh } from 'three';
@@ -15,6 +16,11 @@ export default function ReactThreeExperience() {
 
   return (
     <>
+      <OrbitControls
+        enablePan={false}
+        enableZoom={false}
+      />
+      
       <mesh ref={cubeRef}>
         <boxGeometry />
         <meshNormalMaterial />
