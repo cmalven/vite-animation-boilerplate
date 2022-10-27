@@ -10,6 +10,9 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
 
+    // JSX
+    "jsx": "react",
+
     "strict": true
   }
 }

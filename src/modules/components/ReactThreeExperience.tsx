@@ -1,0 +1,24 @@
+import { useFrame } from '@react-three/fiber';
+import React from 'react';
+import { useRef } from 'react';
+import type { Mesh } from 'three';
+
+export default function ReactThreeExperience() {
+  const cubeRef = useRef<Mesh>(null);
+
+  useFrame(({ clock }, delta) => {
+    if (!cubeRef.current) return;
+    cubeRef.current.rotation.z += 0.8 * delta;
+    cubeRef.current.rotation.y += 0.8 * delta;
+    cubeRef.current.scale.x = cubeRef.current.scale.y = cubeRef.current.scale.z = Math.sin(clock.getElapsedTime()) + 1.5;
+  });
+
+  return (
+    <>
+      <mesh ref={cubeRef}>
+        <boxGeometry />
+        <meshNormalMaterial />
+      </mesh>
+    </>
+  );
+}
