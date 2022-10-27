@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, PivotControls } from '@react-three/drei';
 import React from 'react';
 import { useRef } from 'react';
 import type { Mesh } from 'three';
@@ -22,12 +22,15 @@ export default function ReactThreeExperience() {
       <OrbitControls
         enablePan={false}
         enableZoom={false}
+        makeDefault
       />
-      
-      <mesh ref={cubeRef}>
-        <boxGeometry />
-        <meshStandardMaterial />
-      </mesh>
+
+      <PivotControls depthTest={false} scale={2} lineWidth={3}>
+        <mesh ref={cubeRef}>
+          <boxGeometry />
+          <meshStandardMaterial />
+        </mesh>
+      </PivotControls>
     </>
   );
 }
