@@ -16,6 +16,9 @@ export default function ReactThreeExperience() {
 
   return (
     <>
+      <directionalLight />
+      <ambientLight intensity={0.2} />
+
       <OrbitControls
         enablePan={false}
         enableZoom={false}
@@ -23,7 +26,7 @@ export default function ReactThreeExperience() {
       
       <mesh ref={cubeRef}>
         <boxGeometry />
-        <meshNormalMaterial />
+        <meshStandardMaterial />
       </mesh>
     </>
   );
