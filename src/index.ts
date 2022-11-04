@@ -22,14 +22,21 @@ window.APP = {
   devMode: true,
 };
 
+const enableGpuDetect = true;
+const enableGui = window.APP.devMode;
+const enableStats = window.APP.devMode;
+
 const readyPromises = [];
 
-// Detect GPU capabilities
-readyPromises.push(getGPUTier().then(gpuDetails => {
-  window.APP.gpu = gpuDetails;
-}));
+// Detect GPU
+if (enableGpuDetect) {
+  readyPromises.push(getGPUTier().then(gpuDetails => {
+    window.APP.gpu = gpuDetails;
+  }));
+}
 
-if (window.APP.devMode) {
+// GUI
+if (enableGui) {
   const guiPromise = import('@malven/gui').then(({ default: Gui }) => {
     // Add Gui and connect knobs for MidiFighter Twister
     window.APP.gui = new Gui({
@@ -38,7 +45,10 @@ if (window.APP.devMode) {
     window.APP.gui.configureDevice('Midi Fighter Twister');
   }).catch(error => 'An error occurred while loading GUI');
   readyPromises.push(guiPromise);
+}
 
+// Stats
+if (enableStats) {
   const statsPromise = import('stats.js').then(({ default: Stats }) => {
     // Add stats
     window.APP.stats = new Stats();
