@@ -14,11 +14,6 @@ class ReactThreeExample {
   // React
   root?: ReactDOM.Root | null;
 
-  // Settings
-  settings = {
-    scalePeriod: 1000,
-  };
-
   constructor(containerSelector = '[data-app-container]') {
     this.container = document.querySelector(containerSelector);
 
@@ -26,18 +21,8 @@ class ReactThreeExample {
   }
 
   init = () => {
-    this.createGui();
     this.createApp();
     this.render();
-  };
-
-  createGui = () => {
-    if (!window.APP.gui) return;
-
-    const folder = window.APP.gui.setFolder('ReactThreeExample');
-    folder.open();
-
-    window.APP.gui.add(this.settings, 'scalePeriod', 0.5, 20);
   };
 
   createApp = () => {
@@ -49,7 +34,7 @@ class ReactThreeExample {
 
     this.root.render(
       <StrictMode>
-        <Canvas>
+        <Canvas camera={{ position: [0, 1.5, 5] }}>
           <ReactThreeExperience />
         </Canvas>,
       </StrictMode>,
