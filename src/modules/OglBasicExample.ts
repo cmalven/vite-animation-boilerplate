@@ -62,7 +62,7 @@ class OglBasicExample {
   createGui = () => {
     if (!window.APP.gui) return;
 
-    const folder = window.APP.gui.setFolder('ThreeExample');
+    const folder = window.APP.gui.setFolder('OGLExample');
     folder.open();
 
     window.APP.gui.add(this.settings, 'scalePeriod', 0.5, 20);
