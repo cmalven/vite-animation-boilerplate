@@ -7,7 +7,9 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [
-    glsl(),
+    glsl({
+      watch: false,
+    }),
     react(),
     legacy({
       targets: ['defaults', 'not IE 11'],
