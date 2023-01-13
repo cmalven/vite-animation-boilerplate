@@ -36,7 +36,7 @@ class OglBasicExample {
   texture?: Texture;
 
   // Uniforms
-  uniforms: { [key: string]: { value: number | number[] | Texture | undefined } } = {};
+  uniforms: { [key: string]: { value: number | number[] | boolean | Texture | undefined } } = {};
 
   // Settings
   settings = {
