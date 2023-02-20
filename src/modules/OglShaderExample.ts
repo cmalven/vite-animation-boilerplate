@@ -31,19 +31,15 @@ class OglShaderExample {
   resolution = { width: 0, height: 0, max: 0, min: 0 };
   offset = { x: 0, y: 0 };
 
-  // Colors
+  // Mouse
+  mouse = { x: 0, y: 0 };
 
   // Uniforms
   uniforms: { [key: string]: { value: number | number[] | boolean | Texture | undefined } } = {};
 
   // Settings
   settings = {
-    colors: {
-      yellow: [255, 156, 14],
-      red: [237, 78, 63],
-      blue: [45, 42, 101],
-      green: [23, 145, 128],
-    },
+    scale: 1,
   };
 
   constructor(containerSelector = '[data-app-container]') {
@@ -55,6 +51,7 @@ class OglShaderExample {
   init = () => {
     this.createGui();
     this.createApp();
+    this.addEventListeners();
     this.createItems();
     this.updateUniforms();
     this.update();
@@ -63,13 +60,16 @@ class OglShaderExample {
   createGui = () => {
     if (!window.APP.gui) return;
 
-    // const folder = window.APP.gui.setFolder('OGLExample');
-    // folder.open();
-    //
-    // window.APP.gui.addColor(this.settings.colors, 'yellow');
-    // window.APP.gui.addColor(this.settings.colors, 'red');
-    // window.APP.gui.addColor(this.settings.colors, 'blue');
-    // window.APP.gui.addColor(this.settings.colors, 'green');
+    const folder = window.APP.gui.setFolder('OglShaderExample');
+    folder.open();
+
+    window.APP.gui.add(this.settings, 'scale', 0.01, 2);
+  };
+
+  addEventListeners = () => {
+    window.addEventListener('mousemove', this.onMouseMove);
+    window.addEventListener('resize', this.resize, false);
+    this.resize();
   };
 
   createApp = () => {
@@ -87,10 +87,6 @@ class OglShaderExample {
 
     // Set clear color
     this.gl.clearColor(1, 1, 1, 1);
-
-    // Resizing
-    window.addEventListener('resize', this.resize, false);
-    this.resize();
 
     // Program
     this.program = new Program(this.gl, {
@@ -110,6 +106,10 @@ class OglShaderExample {
 
   updateItems = () => {
     // Update items here
+  };
+
+  onMouseMove = (evt: MouseEvent) => {
+    this.mouse = { x: evt.clientX, y: this.resolution.height - evt.clientY };
   };
 
   resize = () => {
@@ -135,17 +135,11 @@ class OglShaderExample {
       uTime: { value: this.time },
       uResolution: { value: Object.values(this.resolution) },
       uOffset: { value: Object.values(this.offset) },
-      uYellow: { value: this.formatColor(this.settings.colors.yellow) },
-      uRed: { value: this.formatColor(this.settings.colors.red) },
-      uBlue: { value: this.formatColor(this.settings.colors.blue) },
-      uGreen: { value: this.formatColor(this.settings.colors.green) },
+      uScale: { value: this.settings.scale },
+      uMouse: { value: Object.values(this.mouse) },
     };
 
     this.program.uniforms = this.uniforms;
-  };
-
-  formatColor = (color: number[]) => {
-    return color.map(val => val / 255);
   };
 
   update = () => {

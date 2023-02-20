@@ -6,6 +6,8 @@ uniform vec2 mouse;
 uniform vec2 offset;
 uniform float scale;
 
+const float aa = 0.0001;
+
 float plot(vec2 st) {
     return smoothstep(0.002, 0.0, abs(st.y - st.x));
 }
@@ -24,9 +26,6 @@ void main () {
 
     // Initial color
     vec3 color = vec3(0.0);
-
-    // Smoothing amount
-    float aa = 0.0001;
 
     // Create a circle
     float center_dist = distance(scaledMousePos, scaledPos);
