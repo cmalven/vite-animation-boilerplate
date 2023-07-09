@@ -53,8 +53,8 @@ class PixiExample {
   createApp = () => {
     if (!this.container) return;
     
-    PIXI.utils.skipHello();
-    this.app = new PIXI.Application({
+    if (PIXI.settings.RENDER_OPTIONS?.hello) PIXI.settings.RENDER_OPTIONS.hello = false;
+    this.app = new PIXI.Application<HTMLCanvasElement>({
       backgroundColor: 0x212322,
       width: 1000,
       height: 1000,
@@ -104,7 +104,7 @@ class PixiExample {
       sprite.anchor.set(0.5, 0.5);
       sprite.position.x = (Math.random() - 0.5) * this.width;
       sprite.position.y = (Math.random() - 0.5) * this.height;
-      sprite.tint = PIXI.utils.string2hex(randColor);
+      sprite.tint = new PIXI.Color(randColor).toNumber();
       this.particleContainer.addChild(sprite);
     }
   };
