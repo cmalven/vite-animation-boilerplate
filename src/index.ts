@@ -1,5 +1,5 @@
 import { getGPUTier } from 'detect-gpu';
-import Example from './modules/OglBasicExample';
+import Example from './modules/OglShaderExample';
 
 import type Gui from '@malven/gui';
 import type { TierResult } from 'detect-gpu';
