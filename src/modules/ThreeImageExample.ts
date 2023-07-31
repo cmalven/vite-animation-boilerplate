@@ -122,7 +122,7 @@ class ThreeImageExample {
     // Create the geometry
     const imageRatio = 1333 / 2000;
     const imageWidth = 60;
-    this.geometry = new THREE.PlaneBufferGeometry(imageWidth, imageWidth * imageRatio, 16 * 2, 9 * 2);
+    this.geometry = new THREE.PlaneGeometry(imageWidth, imageWidth * imageRatio, 16 * 2, 9 * 2);
 
     // Create the material
     const shaderMaterial = new THREE.ShaderMaterial({
