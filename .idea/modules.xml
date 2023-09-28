@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/furniture-solutions-pattern.iml" filepath="$PROJECT_DIR$/.idea/furniture-solutions-pattern.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/vite-animation-boilerplate.iml" filepath="$PROJECT_DIR$/.idea/vite-animation-boilerplate.iml" />
     </modules>
   </component>
 </project>
