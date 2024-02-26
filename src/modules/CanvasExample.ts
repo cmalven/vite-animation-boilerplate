@@ -3,6 +3,14 @@
  * Boilerplate module using canvas
  */
 
+type MousePosition = { x: number, y: number }
+
+type Window = {
+  ratio: number,
+  width: number,
+  height: number,
+}
+
 class CanvasExample {
   // Container
   container: HTMLElement | null;
@@ -10,6 +18,13 @@ class CanvasExample {
   // Canvas
   canvas?: HTMLCanvasElement;
   ctx?: CanvasRenderingContext2D | null;
+
+  // Window ratio
+  window: Window = {
+    ratio: 0,
+    width: 0,
+    height: 0,
+  };
 
   // Items
   item = {
@@ -20,12 +35,16 @@ class CanvasExample {
   // Set the size
   width = 1000;
 
+  targetMouse: MousePosition = { x: 0, y: 0 };
+  currentMouse: MousePosition = { x: 0, y: 0 };
+
   // Time
   lastTime = performance.now() / 1000;
   time = 0;
 
   // Settings
   settings = {
+    mouseEase: 0.3,
     scalePeriod: 5,
   };
 
@@ -37,8 +56,17 @@ class CanvasExample {
 
   init = () => {
     this.createGui();
+    this.addEventListeners();
     this.createCanvas();
     this.update();
+  };
+  
+  addEventListeners = () => {
+    window.addEventListener('mousemove', this.onMouseMove);
+  };
+  
+  onMouseMove = (evt: MouseEvent) => {
+    this.targetMouse = { x: evt.pageX, y: evt.pageY };
   };
 
   createGui = () => {
@@ -47,6 +75,7 @@ class CanvasExample {
     const folder = window.APP.gui.setFolder('CanvasExample');
     folder.open();
 
+    window.APP.gui.add(this.settings, 'mouseEase', 0.01, 0.8);
     window.APP.gui.add(this.settings, 'scalePeriod', 0.5, 20);
   };
 
@@ -67,8 +96,10 @@ class CanvasExample {
   resize = () => {
     if (!this.canvas) return;
 
-    const winRatio = window.innerHeight / window.innerWidth;
-    const height = this.width * winRatio;
+    this.window.width = window.innerWidth;
+    this.window.height = window.innerHeight;
+    this.window.ratio = this.window.height / this.window.width;
+    const height = this.width * this.window.ratio;
 
     this.canvas.width = this.width;
     this.canvas.height = height;
@@ -91,8 +122,25 @@ class CanvasExample {
     // Draw
     this.ctx.fillStyle = 'teal';
     this.ctx.beginPath();
-    this.ctx.arc(this.canvas.width / 2, this.canvas.height / 2, this.item.size * this.item.scale, 0, 2 * Math.PI);
+    this.ctx.arc(this.mouseToCanvas().x, this.mouseToCanvas().y, this.item.size * this.item.scale, 0, 2 * Math.PI);
     this.ctx.fill();
+  };
+  
+  updateMouse = () => {
+    const diffX = (this.targetMouse.x - this.currentMouse.x) * this.settings.mouseEase;
+    const diffY = (this.targetMouse.y - this.currentMouse.y) * this.settings.mouseEase;
+    this.currentMouse.x += diffX;
+    this.currentMouse.y += diffY;
+  };
+
+  mouseToCanvas = (): { x: number, y: number } => {
+    if (!this.canvas) return { x: 0, y: 0 };
+    const ratioX = this.canvas.width / this.window.width;
+    const ratioY = this.canvas.height / this.window.height;
+    return {
+      x: this.currentMouse.x * ratioX,
+      y: this.currentMouse.y * ratioY,
+    };
   };
 
   update = () => {
@@ -105,6 +153,7 @@ class CanvasExample {
 
     // Update + draw
     this.clear();
+    this.updateMouse();
     this.updateItems();
 
     if (window.APP.stats) window.APP.stats.end();
